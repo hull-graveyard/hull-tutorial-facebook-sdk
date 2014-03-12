@@ -27,11 +27,14 @@ In addition, we emit standardized events and do the tracking for all login and l
 
 This will let you listen to Facebook's events and do tracking calls and integrate with Hull's event system. Future implementations will handle this with less code.
 
-##### To make this work:
+##### Configure the Facebook and Hull Apps:
 
 * Use the code below and replace your App ID, Org URL by those of your Hull App, 
 * Replace `FACEBOOK_APP_ID` by the one from your facebook app.
 * In your Facebook App's dashboard (on http://developers.facebook.com), go to "Settings > App Domains" and add your user-facing domain in addition to the Hull organization URL.
 * Insert your end-user domain in one of the following fields: "Canvas URL" or "Page Tab" (You probably already have done this already)
+
+
+##### Look at the tutorial in this repository
 
 Look at the code in `index.html` (https://github.com/hull/hull-facebook-sdk/blob/master/index.html)
