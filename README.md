@@ -1,4 +1,3 @@
-
 # Integration with the Facebook SDK
 
 **This tutorial explains how to integrate more deeply Hull and the Facebook SDK to subscribe to events and track like button activity for instance.**
@@ -35,4 +34,4 @@ This will let you listen to Facebook's events and do tracking calls and integrat
 * In your Facebook App's dashboard (on http://developers.facebook.com), go to "Settings > App Domains" and add your user-facing domain in addition to the Hull organization URL.
 * Insert your end-user domain in one of the following fields: "Canvas URL" or "Page Tab" (You probably already have done this already)
 
-Look at the code in Indexy
+Look at the code in `index.html` (https://github.com/hull/hull-facebook-sdk/blob/master/index.html)
