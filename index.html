@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Hull App...</title>
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="https://d3f5pyioow99x0.cloudfront.net/0.8/hull.api.js"></script>
+</head>
+<body>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=FACEBOOK_APP_ID";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+  <ul>
+    <li> <a href='#' class="login">Login!</a> </li>
+    <li> <a href='#' class="fb-ui-share">Share!</a> </li>
+    <li> <div class="fb-like" data-href="https://any.url.com/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div> </li>
+  </ul>
+
+  <script>
+    Hull.init({
+      appId: "YOUR_APP_ID",
+      orgUrl: "YOUR_ORG_URL",
+    });
+    fbAsyncInit = function () {
+      //Log the user in
+      $('.login').click(function(){
+        Hull.login('facebook')
+      });
+
+      //Show a Publish to Feed dialog on click
+      $('.fb-ui-share').click(function(){
+        FB.ui({
+            method: 'feed',
+            name: 'Hull',
+            link: 'http://hull.io',
+            caption: "Hull.io is a great product, I'm building an advanced integration with Hull and Facebook",
+            description: "Hull is a unified engagement platform that makes building Engaging Apps super easy."
+          },
+          function(response) {
+            //Track the share in Hull, emit an event. Will be tied to the current User if there is one.
+            Hull.track('facebook.share.create',response)
+            Hull.emit('facebook.share.create',response)
+            if (response && response.post_id) {
+              alert('Post was published.');
+            } else {
+              alert('Post was not published.');
+            }
+          }
+        );
+      })
+      //You don't need to listen to Auth changes, Hull tracks this for you automatically.
+
+      //Subscribe to Likes
+      FB.Event.subscribe('edge.create', function (url, html) {
+        Hull.track('facebook.like.create',{url:url });
+        Hull.emit('facebook.edge.create', {url: url, elt: html});
+      });
+      //Subscribe to Unlikes
+      FB.Event.subscribe('edge.remove', function (url, html) {
+        Hull.track('facebook.like.remove',{url:url });
+        Hull.emit('facebook.edge.remove', {url: url, elt: html});
+      });
+      //Subscribe to new Comments made with the Facebook Comment widget
+      FB.Event.subscribe('comments.create', function (res) {
+        Hull.track('facebook.comment.create',{url: res.url });
+        Hull.emit('facebook.comment.create', {
+          url: res.url,
+          commentId: res.commentId,
+          parentId:res.parentCommentId
+        });
+      });
+      //Subscribe to deleted Comments made with the Facebook Comment widget
+      FB.Event.subscribe('comments.remove', function (res) {
+        Hull.track('facebook.comment.remove',{url: res.url });
+        Hull.emit('facebook.comment.remove', {
+          url: res.url,
+          commentId: res.commentId,
+          parentId:res.parentCommentId
+        });
+      });
+    };
+    //Example of how to handle a facebook like
+    Hull.on('facebook.edge.create', function (obj) {
+      console.log('Edge created', obj.url, obj.elt);
+    });
+  </script>
+</body>
+</html>
