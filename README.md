@@ -1,7 +1,8 @@
----
-title: Integration with the Facebook SDK
-subtitle: This tutorial explains how to integrate more deeply Hull and the Facebook SDK to subscribe to events and track like button activity for instance.
----
+
+# Integration with the Facebook SDK
+
+**This tutorial explains how to integrate more deeply Hull and the Facebook SDK to subscribe to events and track like button activity for instance.**
+
 
 # tl;dr;
 Most of the times, the Facebook proxy we provide will be good enough for you, but sometimes you want a deeper integration, for instance to track Like buttons with XFBML markup and listen to their events. Here's how you can do that.
